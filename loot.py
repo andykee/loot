@@ -2,7 +2,7 @@
 
 import pandas as pd
 import numpy as np
-import numpy_financial as nf
+import numpy_financial as npf
 
 __version__ = "1.0.0"
 
