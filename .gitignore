@@ -3,3 +3,4 @@ build
 dist
 docs/_build
 loot.egg-info
+.DS_Store

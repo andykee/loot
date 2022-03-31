@@ -161,18 +161,15 @@ def ldf(rate, nper, prin, round=2):
     return df
 
 
-def itax(tinc, table=USTAX, fstatus='MFJ'):
+def itax(tinc, table):
     """Compute income tax
 
     Parameters
     ----------
     tinc : float
         Taxable income
-    table: dict, optional
-        Tax table to use. Current options are USTAX (default) and CATAX.
-    fstatus: str
-        Filing status. Current support for:
-            * 'MFJ' married filing jointly (default)
+    table: dict
+        Tax table 
 
     Returns
     -------
@@ -181,7 +178,7 @@ def itax(tinc, table=USTAX, fstatus='MFJ'):
 
     """
     tax = 0
-    brackets = list(table[fstatus].keys())
+    brackets = list(table.keys())
     for n, bracket in enumerate(brackets):
         if tinc > brackets[n+1]:
             tax += (brackets[n+1] - brackets[n]) * table[bracket]
@@ -191,7 +188,47 @@ def itax(tinc, table=USTAX, fstatus='MFJ'):
     return round(tax, 2)
 
 
-def hins(val, pct=0.0025):
+def ustax(tinc, fstatus):
+    """Compute federal income tax
+
+    Parameters
+    ----------
+    tinc : float
+        Taxable income
+    fstatus: str
+        Filing status. Current support for married filing jointly
+        ('MFJ')
+
+    Returns
+    -------
+    itax : float
+        Income tax owed
+
+    """
+    return itax(tinc, USTAX[fstatus]) 
+
+
+def catax(tinc, fstatus):
+    """Compute California income tax
+
+    Parameters
+    ----------
+    tinc : float
+        Taxable income
+    fstatus: str
+        Filing status. Current support for married filing jointly
+        ('MFJ')
+
+    Returns
+    -------
+    itax : float
+        Income tax owed
+
+    """
+    return itax(tinc, CATAX[fstatus]) 
+
+
+def hoins(val, pct=0.0025):
     """Estimate annual homeowner's insurance payment
 
     Parameters
