@@ -244,7 +244,7 @@ def hoins(val, pct=0.0025):
         Estimated annual cost
 
     """
-    return val * rate
+    return val * pct
 
 
 def ptax(val, rate=0.0127):
