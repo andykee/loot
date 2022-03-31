@@ -3,7 +3,7 @@ import re
 from setuptools import setup
 
 with open('loot.py') as f:
-    version = re.search("__version__ = '(.*?)'", f.read()).group(1)
+    version = re.search('__version__ = "(.*?)"', f.read()).group(1)
 
 setup(
     name='loot',
