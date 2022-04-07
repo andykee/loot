@@ -29,6 +29,8 @@ CATAX = {'MFJ' : {0: 0.01,
                   750442: 0.113,
                   1250738: 0.123}}
 
+IBND = {'2021-05-01': (0, 0.0177),
+        '2021-11-01': (0, 0.0356)}
 
 # Reworked interfaces for useful numpy-financial functions
 def pmt(rate, nper, prin):
@@ -274,6 +276,32 @@ def stded(fstatus='MFJ'):
 
 
 def ibnd(pdate, prin):
-    raise NotImplementedError
+    date = datetime.date.fromisoformat(pdate)
+    rate_date = _rate_date(date)
+    fixed_rate = IBND[rate_date][0]
+    m = 1
+
+    while date < datetime.date.today().replace(day=1):
+        floating_rate = IBND[rate_date][1]
+        composite_rate = fixed_rate + (2*floating_rate) + (fixed_rate * floating_rate)
+        if m == 6:
+            rate_date = _rate_date(date)
+            m = 1
+    
+        prin = loot.fv(composite_rate, 1, prin)
+        date += relativedelta(months=1)
+        m += 1
+
+    return prin
 
 
+def _rate_date(pdate):
+    rate_year = pdate.year
+    if pdate.month < 5:
+        rate_month = 11
+        rate_year -= 1
+    elif pdate.month < 11:
+        rate_month = 5
+    else:
+        rate_month = 11
+    return datetime.date(rate_year, rate_month, 1).strftime('%Y-%m-%d')
