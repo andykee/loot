@@ -22,9 +22,9 @@ path = os.path.abspath(os.path.dirname(__file__))
 # -- Project information -----------------------------------------------------
 project = 'loot'
 author = 'Andy Kee'
-copyright = f'{datetime.datetime.now().year} Andy Kee'
+copyright = f'{datetime.date.today().year} Andy Kee'
 
-with open(os.path.normpath(os.path.join(path, '..', 'loot.py'))) as f:
+with open(os.path.normpath(os.path.join(path, '..', 'loot', '__init__.py'))) as f:
     version = release = re.search('__version__ = "(.*?)"', f.read()).group(1)
 
 # -- General configuration ---------------------------------------------------

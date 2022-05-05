@@ -2,7 +2,7 @@ import re
 
 from setuptools import setup
 
-with open('loot.py') as f:
+with open('loot/__init__.py') as f:
     version = re.search('__version__ = "(.*?)"', f.read()).group(1)
 
 setup(
@@ -11,6 +11,7 @@ setup(
     install_requires=[
         'pandas',
         'numpy',
-        'numpy-financial'
+        'numpy-financial',
+        'python-dateutil'
     ]
 )
